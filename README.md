@@ -19,12 +19,15 @@ register this module as a plugin in Hapi
 ```js
 
 server.register({
+
   register: require(`hapi-devine-mongodb`),
+
   options: {
     mongoUrl: 'mongodb://localhost/test' // mongodb connection string (required)
     schemasDir: path.join(__dirname, `schemas`) // schema directory (required)
     log: true // provide logs (optional, default: true)
   }
+
 }, pluginHandler);
 
 ```

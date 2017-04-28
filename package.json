@@ -1,7 +1,7 @@
 {
   "name": "hapi-devine-mongodb",
-  "version": "1.0.2",
-  "description": "hapi plugin for generator-devine-boilerplate",
+  "version": "1.0.3",
+  "description": "🔧 This Hapi plugin loads all schemas in the given directory and registers them as models with Mongoose.",
   "main": "index.js",
   "repository": "devinehowest/hapi-devine-mongodb",
   "author": {

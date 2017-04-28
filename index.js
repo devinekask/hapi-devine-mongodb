@@ -6,7 +6,7 @@ const chalk = require(`chalk`);
 const mongoose = require(`mongoose`);
 mongoose.Promise = global.Promise;
 
-module.exports.register = (server, options, next) => {
+module.exports = (server, options, next) => {
 
   const {
     schemasDir,
@@ -43,9 +43,4 @@ module.exports.register = (server, options, next) => {
 
   next();
 
-};
-
-module.exports.register.attributes = {
-  name: `hapi-devine-mongoose`,
-  version: `0.1.0`
 };
