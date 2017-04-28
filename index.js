@@ -33,9 +33,12 @@ module.exports.register = (server, options, next) => {
       const model = mongoose.model(modelName, schema, collectionName);
       const {collectionName: cn} = model.collection;
 
-      if (log) console.log(
+      if (log) {
+        console.log(` `);
+        console.log(
         `${chalk.yellow(`mongoose`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
-      );
+        );
+      }
 
     })
 
@@ -45,6 +48,6 @@ module.exports.register = (server, options, next) => {
 
 };
 
-exports.register.attributes = {
+module.exports.register.attributes = {
   pkg: require(`./package.json`)
 };
