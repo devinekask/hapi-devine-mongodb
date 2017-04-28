@@ -1,6 +1,7 @@
 const path = require(`path`);
 
 const glob = require(`glob`);
+const chalk = require(`chalk`);
 
 const mongoose = require(`mongoose`);
 mongoose.Promise = global.Promise;
@@ -9,7 +10,8 @@ module.exports.register = (server, options, next) => {
 
   const {
     schemasDir,
-    mongoUrl
+    mongoUrl,
+    log = true
   } = options;
 
   if (!mongoUrl || !schemasDir) {
@@ -31,7 +33,9 @@ module.exports.register = (server, options, next) => {
       const model = mongoose.model(modelName, schema, collectionName);
       const {collectionName: cn} = model.collection;
 
-      console.log(`mongoose: registered schema '${modelName}', collection: '${cn}'`);
+      if (log) console.log(
+        `${chalk.yellow(`mongoose`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
+      );
 
     })
 
