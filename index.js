@@ -15,7 +15,7 @@ module.exports.register = (server, options, next) => {
   } = options;
 
   if (!mongoUrl || !schemasDir) {
-    throw new Error(`'mongoUrl' and 'schemasDir' required`);
+    throw new Error(`'mongoUrl' and 'schemasDir' are required`);
   }
 
   mongoose.connect(mongoUrl);
@@ -36,7 +36,7 @@ module.exports.register = (server, options, next) => {
       if (log) {
         console.log(` `);
         console.log(
-        `${chalk.yellow(`mongoose`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
+        `${chalk.yellow(`hapi-devine-mongodb`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
         );
       }
 
