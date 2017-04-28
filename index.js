@@ -6,7 +6,7 @@ const chalk = require(`chalk`);
 const mongoose = require(`mongoose`);
 mongoose.Promise = global.Promise;
 
-module.exports = (server, options, next) => {
+module.exports.register = (server, options, next) => {
 
   const {
     schemasDir,
@@ -43,4 +43,8 @@ module.exports = (server, options, next) => {
 
   next();
 
+};
+
+exports.register.attributes = {
+  pkg: require(`./package.json`)
 };
