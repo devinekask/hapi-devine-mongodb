@@ -36,6 +36,8 @@ server.register({
 
 files in the schema directory should look like this
 
+hapi-devine-mongodb **automatically** adds **'modified'** & **'created'** timestamps + **'isActive'** (default: true) to the Model
+
 ```js
 
 const schema = {
@@ -61,12 +63,10 @@ module.exports = {schema};
 
 `hapi-devine-mongodb` defaults to the **name of the file** as the **model name**, Mongoose defaults to **modelname (lowercase) + 's'** for the **collection name**.
 
-hapi-devine-mongodb automatically adds 'modified' & 'created' timestamps and 'isActive' (default: true) to the Model
-
 optional properties
-- name <String>: the name of the model
-- collectionName <String>: the name of the collection (ex. Feedback, there is no 'feedbacks', provide 'feedback')
-- plugins <Array>: an array of mongoose plugins
+- name (String): the name of the model
+- collectionName (String): the name of the collection (ex. Feedback, there is no 'feedbacks', provide 'feedback')
+- plugins (Array): an array of mongoose plugins
 
 example:
 - filename: 'Tweet.js'
