@@ -9,42 +9,47 @@ mongoose.Promise = global.Promise;
 module.exports.register = (server, options, next) => {
 
   const {
-    schemasDir,
-    mongoUrl,
+    path: p,
+    connectionString,
     log = true
   } = options;
 
-  if (!mongoUrl || !schemasDir) {
-    throw new Error(`'mongoUrl' and 'schemasDir' are required`);
+  if (!connectionString || !p) {
+    throw new Error(`'connectionString' and 'path' are required`);
   }
 
-  mongoose.connect(mongoUrl);
+  mongoose.connect(connectionString);
 
   glob(
 
-    path.join(schemasDir, `**/*.js`),
+    path.join(p, `**/*.js`),
     {ignore: [`**/*/index.js`, `**/*/_*.js`]},
 
-    (err, files) => files.forEach(f => {
+    (err, files) => {
 
-      const file = path.resolve(schemasDir, f);
-      const {schema, collectionName, modelName = path.basename(f, `.js`)} = require(file);
+      if (log) console.log(``);
 
-      const model = mongoose.model(modelName, schema, collectionName);
-      const {collectionName: cn} = model.collection;
+      files.forEach(f => {
 
-      if (log) {
-        console.log(` `);
-        console.log(
-        `${chalk.yellow(`hapi-devine-mongodb`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
-        );
-      }
+        const file = path.resolve(p, f);
+        const {schema, collectionName, modelName = path.basename(f, `.js`)} = require(file);
 
-    })
+        const model = mongoose.model(modelName, schema, collectionName);
+        const {collectionName: cn} = model.collection;
+
+        if (log) {
+          console.log(
+          `${chalk.yellow(`hapi-devine-mongodb`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
+          );
+        }
+
+      });
+
+      if (log) console.log(``);
+
+    }
 
   );
-
-  if (log) console.log(``);
 
   next();
 

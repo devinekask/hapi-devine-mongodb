@@ -23,8 +23,8 @@ server.register({
   register: require(`hapi-devine-mongodb`),
 
   options: {
-    mongoUrl: 'mongodb://localhost/test' // mongodb connection string (required)
-    schemasDir: path.join(__dirname, `schemas`) // schema directory (required)
+    connectionString: 'mongodb://localhost/test' // mongodb connection string (required)
+    path: path.join(__dirname, `schemas`) // schema directory (required)
     log: true // provide logs (optional, default: true)
   }
 
