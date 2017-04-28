@@ -26,13 +26,12 @@ module.exports.register = (server, options, next) => {
     (err, files) => files.forEach(f => {
 
       const file = path.resolve(schemasDir, f);
-      const {schema, collectionName} = require(file);
-      const modelName = path.basename(f, `.js`);
+      const {schema, collectionName, modelName = path.basename(f, `.js`)} = require(file);
 
       const model = mongoose.model(modelName, schema, collectionName);
       const {collectionName: cn} = model.collection;
 
-      console.log(`mongoose: registered schema '${name}', collection: '${cn}'`);
+      console.log(`mongoose: registered schema '${modelName}', collection: '${cn}'`);
 
     })
 
