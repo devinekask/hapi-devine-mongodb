@@ -6,6 +6,9 @@ const chalk = require(`chalk`);
 const mongoose = require(`mongoose`);
 mongoose.Promise = global.Promise;
 
+const Joi = require(`joi`);
+const Schema = require(`mongoose`).Schema;
+
 module.exports.register = (server, options, next) => {
 
   const {
@@ -32,9 +35,31 @@ module.exports.register = (server, options, next) => {
       files.forEach(f => {
 
         const file = path.resolve(p, f);
-        const {schema, collectionName, modelName = path.basename(f, `.js`)} = require(file);
 
-        const model = mongoose.model(modelName, schema, collectionName);
+        const {
+          schema,
+          collectionName,
+          modelName = path.basename(f, `.js`),
+          plugins = []
+        } = require(file);
+
+        schema.isActive = {
+          type: Boolean,
+          default: true,
+          project: false,
+          validation: Joi.boolean()
+        };
+
+        const s = new Schema(schema, {
+          timestamps: {
+            createdAt: `created`,
+            updatedAt: `modified`
+          }
+        });
+
+        plugins.forEach(p => s.plugin(p));
+
+        const model = mongoose.model(modelName, s, collectionName);
         const {collectionName: cn} = model.collection;
 
         if (log) {
