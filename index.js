@@ -46,7 +46,6 @@ module.exports.register = (server, options, next) => {
         schema.isActive = {
           type: Boolean,
           default: true,
-          project: false,
           validation: Joi.boolean()
         };
 
