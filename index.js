@@ -3,6 +3,8 @@ const path = require(`path`);
 const glob = require(`glob`);
 const chalk = require(`chalk`);
 
+const fs = require(`fs`);
+
 const mongoose = require(`mongoose`);
 mongoose.Promise = global.Promise;
 
@@ -20,6 +22,8 @@ module.exports.register = (server, options, next) => {
   if (!connectionString || !p) {
     throw new Error(`'connectionString' and 'path' are required`);
   }
+
+  if (!fs.existsSync(p)) return;
 
   mongoose.connect(connectionString);
 
