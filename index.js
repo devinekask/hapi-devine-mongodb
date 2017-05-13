@@ -52,8 +52,6 @@ module.exports.register = (server, options, next) => {
         const model = mongoose.model(modelName, schema, collectionName);
         const {collectionName: cn} = model.collection;
 
-        console.log(mongoose.models);
-
         if (log) {
           console.log(
           `${chalk.yellow(`hapi-devine-mongodb`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
