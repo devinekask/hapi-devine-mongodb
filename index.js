@@ -8,8 +8,7 @@ const fs = require(`fs`);
 const mongoose = require(`mongoose`);
 mongoose.Promise = global.Promise;
 
-const Joi = require(`joi`);
-const Schema = require(`mongoose`).Schema;
+const buildSchema = require(`./lib/buildSchema`);
 
 module.exports.register = (server, options, next) => {
 
@@ -38,32 +37,22 @@ module.exports.register = (server, options, next) => {
 
       files.forEach(f => {
 
-        const file = path.resolve(p, f);
+        const file = require(path.resolve(p, f));
 
         const {
-          schema,
           collectionName,
           modelName = path.basename(f, `.js`),
           plugins = []
-        } = require(file);
+        } = file;
 
-        schema.isActive = {
-          type: Boolean,
-          default: true,
-          validation: Joi.boolean()
-        };
+        const schema = buildSchema(file.schema);
 
-        const s = new Schema(schema, {
-          timestamps: {
-            createdAt: `created`,
-            updatedAt: `modified`
-          }
-        });
+        plugins.forEach(p => schema.plugin(p));
 
-        plugins.forEach(p => s.plugin(p));
-
-        const model = mongoose.model(modelName, s, collectionName);
+        const model = mongoose.model(modelName, schema, collectionName);
         const {collectionName: cn} = model.collection;
+
+        console.log(mongoose.models);
 
         if (log) {
           console.log(
