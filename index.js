@@ -47,7 +47,11 @@ module.exports.register = (server, options, next) => {
 
         const schema = buildSchema(file.schema);
 
+        const pwd = Object.keys(schema.obj).map(k => schema.obj[k].password).includes(true);
+        if (pwd) schema.plugin(require(`mongoose-bcrypt`));
+
         plugins.forEach(p => schema.plugin(p));
+
 
         const model = mongoose.model(modelName, schema, collectionName);
         const {collectionName: cn} = model.collection;
