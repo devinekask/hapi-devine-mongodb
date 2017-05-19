@@ -5,6 +5,8 @@ const chalk = require(`chalk`);
 
 const fs = require(`fs`);
 
+const validateAuthModel = require(`./lib/validateAuthModel`);
+
 const mongoose = require(`mongoose`);
 mongoose.Promise = global.Promise;
 
@@ -42,16 +44,15 @@ module.exports.register = (server, options, next) => {
         const {
           collectionName,
           modelName = path.basename(f, `.js`),
-          plugins = []
+          plugins = [],
+          auth = false
         } = file;
 
-        const schema = buildSchema(file.schema);
+        if (auth && !validateAuthModel(file.schema)) {
+          throw new Error(`[${modelName}] please provide scope / password / login fields`);
+        }
 
-        const pwd = Object.keys(schema.obj).map(k => schema.obj[k].password).includes(true);
-        if (pwd) schema.plugin(require(`mongoose-bcrypt`));
-
-        plugins.forEach(p => schema.plugin(p));
-
+        const schema = buildSchema(file.schema, plugins, auth);
 
         const model = mongoose.model(modelName, schema, collectionName);
         const {collectionName: cn} = model.collection;
