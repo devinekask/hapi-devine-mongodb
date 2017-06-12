@@ -45,7 +45,8 @@ module.exports.register = (server, options, next) => {
           collectionName,
           modelName = path.basename(f, `.js`),
           plugins = [],
-          auth = false
+          auth = false,
+          api = false
         } = file;
 
         if (auth && !validateAuthModel(file.schema)) {
@@ -56,6 +57,13 @@ module.exports.register = (server, options, next) => {
 
         const model = mongoose.model(modelName, schema, collectionName);
         const {collectionName: cn} = model.collection;
+
+        const config = {
+          auth,
+          api
+        };
+
+        mongoose.models[modelName]._config = config;
 
         if (log) {
           console.log(
