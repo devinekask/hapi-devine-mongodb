@@ -69,11 +69,10 @@ module.exports.register = (server, options, next) => {
           console.log(
           `${chalk.yellow(`hapi-devine-mongodb`)}: registered schema ${chalk.cyan(`'${modelName}'`)}, collection: ${chalk.cyan(`'${cn}'`)}`
           );
+          console.log(``);
         }
 
       });
-
-      if (log) console.log(``);
 
       next();
 
