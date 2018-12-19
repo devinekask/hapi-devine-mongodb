@@ -15,9 +15,9 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "glob": "^7.1.1",
-    "joi": "^10.4.1",
-    "mongoose": "^4.9.6",
-    "mongoose-bcrypt": "^1.4.2"
+    "joi": "^14.3.0",
+    "mongoose": "^5.4.0",
+    "mongoose-bcrypt": "^1.6.0"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
